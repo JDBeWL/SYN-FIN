@@ -14,7 +14,6 @@ namespace SYN_FIN
         public Form()
         {
             InitializeComponent();
-
         }
 
         private void scanIP_Click(object sender, EventArgs e)

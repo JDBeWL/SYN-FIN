@@ -45,11 +45,11 @@
             this.setThread = new System.Windows.Forms.Label();
             this.scanIP = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
-            this.statusLabel = new System.Windows.Forms.Label();
             this.SerialNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.IPAddress = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Port = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Status = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.statusLabel = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -146,7 +146,7 @@
             this.partPortRadio.Location = new System.Drawing.Point(17, 62);
             this.partPortRadio.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.partPortRadio.Name = "partPortRadio";
-            this.partPortRadio.Size = new System.Drawing.Size(100, 19);
+            this.partPortRadio.Size = new System.Drawing.Size(103, 19);
             this.partPortRadio.TabIndex = 1;
             this.partPortRadio.TabStop = true;
             this.partPortRadio.Text = "部分端口：";
@@ -159,7 +159,7 @@
             this.allPortRadio.Location = new System.Drawing.Point(17, 28);
             this.allPortRadio.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.allPortRadio.Name = "allPortRadio";
-            this.allPortRadio.Size = new System.Drawing.Size(85, 19);
+            this.allPortRadio.Size = new System.Drawing.Size(88, 19);
             this.allPortRadio.TabIndex = 0;
             this.allPortRadio.TabStop = true;
             this.allPortRadio.Text = "所有端口";
@@ -239,44 +239,49 @@
             this.dataGridView1.Location = new System.Drawing.Point(32, 252);
             this.dataGridView1.Margin = new System.Windows.Forms.Padding(4);
             this.dataGridView1.Name = "dataGridView1";
+            this.dataGridView1.RowHeadersWidth = 51;
             this.dataGridView1.RowTemplate.Height = 23;
             this.dataGridView1.Size = new System.Drawing.Size(558, 151);
             this.dataGridView1.TabIndex = 3;
             // 
-            // statusLabel
-            // 
-            this.statusLabel.AutoSize = true;
-            this.statusLabel.Location = new System.Drawing.Point(40, 229);
-            this.statusLabel.Name = "statusLabel";
-            this.statusLabel.Size = new System.Drawing.Size(67, 15);
-            this.statusLabel.TabIndex = 4;
-            this.statusLabel.Text = "等待操作";
-            // 
             // SerialNumber
             // 
             this.SerialNumber.HeaderText = "序号";
+            this.SerialNumber.MinimumWidth = 6;
             this.SerialNumber.Name = "SerialNumber";
             this.SerialNumber.Width = 60;
             // 
             // IPAddress
             // 
             this.IPAddress.HeaderText = "IP地址";
+            this.IPAddress.MinimumWidth = 6;
             this.IPAddress.Name = "IPAddress";
             this.IPAddress.Width = 160;
             // 
             // Port
             // 
             this.Port.HeaderText = "端口号";
+            this.Port.MinimumWidth = 6;
             this.Port.Name = "Port";
             this.Port.Width = 80;
             // 
             // Status
             // 
             this.Status.HeaderText = "状态";
+            this.Status.MinimumWidth = 6;
             this.Status.Name = "Status";
             this.Status.Width = 80;
             // 
-            // Form1
+            // statusLabel
+            // 
+            this.statusLabel.AutoSize = true;
+            this.statusLabel.Location = new System.Drawing.Point(33, 229);
+            this.statusLabel.Name = "statusLabel";
+            this.statusLabel.Size = new System.Drawing.Size(67, 15);
+            this.statusLabel.TabIndex = 4;
+            this.statusLabel.Text = "等待操作";
+            // 
+            // Form
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -288,7 +293,9 @@
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.Name = "Form1";
+            this.MaximizeBox = false;
+            this.Name = "Form";
+            this.ShowIcon = false;
             this.Text = "基于SYN-FIN的高级端口扫描程序";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
