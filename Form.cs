@@ -6,6 +6,7 @@ using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Diagnostics;
 
 namespace SYN_FIN
 {
@@ -62,6 +63,9 @@ namespace SYN_FIN
 
             var ipRange = GenerateIPRange(startIP, endIP);
 
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+
             Task.Run(() =>
             {
                 int serialNumber = 1;
@@ -79,8 +83,8 @@ namespace SYN_FIN
                         AddScanResult(serialNumber++, ip, port, status);
                     });
                 }
-
-                UpdateStatus("扫描完成！");
+                stopwatch.Stop();
+                UpdateStatus($"扫描完成！用时{stopwatch.ElapsedMilliseconds * 1.0 / 1000}秒");
             });
         }
 
@@ -219,8 +223,10 @@ namespace SYN_FIN
                         for (int port = threadStartPort; port <= threadEndPort; port++)
                         {
                             Thread.Sleep(delay);
-                            bool isOpen = SendSYN(port);
-                            handleResult(port, isOpen ? "打开" : "关闭");
+                            bool isTcpOpen = SendTcpSYN(port,delay);
+                            bool isUdpOpen = SendUdpSYN(port,delay);
+                            handleResult(port, isTcpOpen ? "TCP端口打开" : "TCP端口关闭");
+                            handleResult(port, isUdpOpen ? "UDP端口打开" : "UDP端口关闭");
                         }
                     }));
                 }
@@ -232,8 +238,10 @@ namespace SYN_FIN
                     tasks.Add(Task.Run(() =>
                     {
                         Thread.Sleep(delay);
-                        bool isOpen = SendSYN(port);
-                        handleResult(port, isOpen ? "打开" : "关闭");
+                        bool isTcpOpen = SendTcpSYN(port,delay);
+                        bool isUdpOpen = SendUdpSYN(port,delay);
+                        handleResult(port, isTcpOpen ? "TCP端口打开" : "TCP端口关闭");
+                        handleResult(port, isUdpOpen ? "UDP端口打开" : "UDP端口关闭");
                     }));
                 }
             }
@@ -241,14 +249,14 @@ namespace SYN_FIN
             Task.WaitAll(tasks.ToArray());
         }
 
-        private bool SendSYN(int port)
+        private bool SendTcpSYN(int port,int delay)
         {
             try
             {
                 using (Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp))
                 {
-                    socket.SendTimeout = 1000;
-                    socket.ReceiveTimeout = 1000;
+                    socket.SendTimeout = delay;
+                    socket.ReceiveTimeout = delay;
                     socket.Connect(new IPEndPoint(IPAddress.Parse(targetIP), port));
                     return true;
                 }
@@ -258,5 +266,23 @@ namespace SYN_FIN
                 return false;
             }
         }
+        private bool SendUdpSYN(int port,int delay)
+        {
+            try
+            {
+                using (Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp))
+                {
+                    socket.SendTimeout = delay;
+                    socket.ReceiveTimeout = delay;
+                    socket.Connect(new IPEndPoint(IPAddress.Parse(targetIP), port));
+                    return true;
+                }
+            }
+            catch
+            {
+                return false;
+            }
+        }
+                        
     }
 }
